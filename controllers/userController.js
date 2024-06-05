@@ -178,7 +178,7 @@ const makeDeposit = async (req,res)=>{
         const isAccount = await  accountTable.findOne({where: {accountNumber : req.params.accountNumber}})
         
         if (!isAccount) {
-        return res.status(404).json({ error: 'Account not found' });
+        return res.status(404).json({ error: 'Invalid account number' });
         }
         if (parseFloat(isAccount.accountBalance) < parseFloat(transactionAmount)) {
         return res.status(400).json({ message: 'Insufficient balance' });
@@ -203,13 +203,13 @@ const transactHistory = async (req,res)=>{
     try{
         
         
-        const accountStatement = await  transactionTable.findAll({where: {accountId : req.params.id}});
+        const accountHistory = await  transactionTable.findAll({where: {accountId : req.params.id}});
         
-        if (!accountStatement){
+        if (!accountHistory){
         return res.status(400).json({ message: 'No transaction found' });
         }
         
-        return res.status(200).json({accountStatement });
+        return res.status(200).json({accountHistory });
 
     }catch(error){
         return res.status(500).json({message: "internal server error", error})
@@ -234,7 +234,7 @@ const generateAcctStatement = async (req,res)=>{
 
        
         if(!isAccount){
-        return res.status(500).json({message: "Account not found"}) 
+        return res.status(400).json({message: "Account not found"}) 
         }
         return res.status(200).json(isAccount);
     }catch(error){

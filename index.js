@@ -9,7 +9,7 @@ require("dotenv").config();
 
 
 const app = express();
-const PORT = process.env.PORT || 4060
+const PORT = process.env.DB_PORT || 4060
 
 app.use(bodyParser.json());
 app.use(cors());
